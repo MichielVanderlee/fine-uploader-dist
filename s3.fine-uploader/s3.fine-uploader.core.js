@@ -6160,7 +6160,7 @@
             },
             generateAwsSignedPost: function(spec, signPolicyCallback) {
                 var key = spec.params.parentpath;
-                if (key !== "") {
+                if (key !== "" && !key.endsWith("/")) {
                     key = key + "/";
                 }
                 key = key + spec.params.qqfilename;
