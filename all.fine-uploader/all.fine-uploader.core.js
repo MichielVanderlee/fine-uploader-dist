@@ -7092,10 +7092,18 @@
                 isError = true;
                 errorMessage = "Invalid policy document or request headers!";
             } else if (response) {
-                if (options.expectingPolicy && !response.policy) {
+                var policy, signature;
+                if (options.signatureSpec.signPost) {
+                    policy = response.fields.policy;
+                    signature = response.fields["x-amz-signature"];
+                } else {
+                    policy = response.policy;
+                    signature = response.signature;
+                }
+                if (options.expectingPolicy && !policy) {
                     isError = true;
                     errorMessage = "Response does not include the base64 encoded policy!";
-                } else if (!response.signature) {
+                } else if (!signature) {
                     isError = true;
                     errorMessage = "Response does not include the signature!";
                 }
